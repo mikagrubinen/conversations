@@ -15,7 +15,8 @@ if(Input::exists()){
         'email' => array(
             'required' => true,
             'max' => 64,
-            'unique' => 'users'
+            'unique' => 'users',
+            'validEmail' => NULL
         ),
         'password' => array(
             'required' => true,
@@ -28,9 +29,24 @@ if(Input::exists()){
     ));
     
     if ($validation->passed()) {
-        echo "Passed";
+        $user = new User();
+        $created = $user->create(array(
+            'username' => Input::get('username'),
+            'email' => Input::get('email'),
+            'password_hash' => Password::hash(Input::get('password')),
+            'registration_date' => date('Y-m-d')
+        ));
+        
+        if(!$created){
+            echo "There was problem creating account";
+        } else {
+            Session::flash('home', 'You have been registered sucsessfully and can now log in!');
+            header('Location: index.php');            
+        }
     } else {
-        print_r($validation->errors());
+        foreach($validation->errors() as $error){
+            echo $error, '<br>';
+        }
     }
 }
 
@@ -42,23 +58,23 @@ if(Input::exists()){
     <!-- the user name input field uses a HTML5 pattern check -->
     <div class="field">
     <label for="username">Username (only letters and numbers, 2 to 20 characters)</label>
-    <input id="username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="username" value="<?php echo Input::get('username'); ?>" >
+    <input id="username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="username" value="<?php echo Input::get('username'); ?>" required>
     </div>
     
     <!-- the email input field uses a HTML5 email type check -->
     <div class="field">
     <label for="email">User's email</label>
-    <input id="email" type="email" name="email" value="<?php echo Input::get('email'); ?>"/>
+    <input id="email" type="email" name="email" value="<?php echo Input::get('email'); ?>" required />
     </div>
     
     <div class="field">
     <label for="password">Password (min. 6 characters)</label>
-    <input id="password" type="password" name="password" pattern=".{6,}"  autocomplete="off" />
+    <input id="password" type="password" name="password" pattern=".{6,}"  autocomplete="off" required />
     </div>
     
     <div class="field">
     <label for="password_repeat">Repeat password</label>
-    <input id="password_repeat" type="password" name="password_repeat" pattern=".{6,}"  autocomplete="off" />
+    <input id="password_repeat" type="password" name="password_repeat" pattern=".{6,}"  autocomplete="off" required />
     </div>
     
     <input type="submit"  name="register" value="Register" />

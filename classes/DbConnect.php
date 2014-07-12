@@ -107,6 +107,14 @@ class DbConnect {
    }
 
    /**
+    * This method allows you to empty _where array.
+    */
+   public function emptyWhere() 
+   {
+      $this->_where = array();
+   }
+   
+   /**
     * This method is needed for prepared statements. They require
     * the data type of the field to be bound with "i" s", etc.
     * This function takes the input, determines what type it is,
@@ -271,6 +279,7 @@ class DbConnect {
    */
    protected function _prepareQuery() 
    {
+      //echo $this->_query;
       if (!$stmt = $this->_mysql->prepare($this->_query)) {
          trigger_error("Problem preparing query", E_USER_ERROR);
       }

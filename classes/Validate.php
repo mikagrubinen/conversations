@@ -17,7 +17,7 @@ class Validate {
             $_db = null;
     
     public function __construct() {
-        $this->db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $this->_db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     }
     
     public function check($source, $items = array()) {
@@ -25,10 +25,11 @@ class Validate {
             foreach ($rules as $rule => $rule_value) {
                 
                 $value = trim($source[$item]);
-                
+
                 if($rule === 'required' && empty($value)){
                     $this->addError("{$item} is required");
                 } else if (!empty($value)){
+                    
                     switch ($rule){
                         case 'min':
                             if(strlen($value) < $rule_value){
@@ -41,11 +42,22 @@ class Validate {
                             }                            
                         break;
                         case 'matches':
-                            
+                            if($value != $source[$rule_value]){
+                                $this->addError("{$rule_value} must match {$item}");
+                            }
                         break;
                         case 'unique':
-                            
+                            $this->_db->where($item, $value);
+                            if ($this->_db->get($rule_value)) {
+                                $this->addError("{$item} already exists");
+                            }
+                            $this->_db->emptyWhere();
                         break;
+                        case 'validEmail':
+                            if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
+                                $this->addError("{$value} is not a valid email.");
+                            }                            
+                        break;    
                     }
                 }
             }

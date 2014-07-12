@@ -9,5 +9,8 @@
 require_once('config/init.php');
 
 
-$db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+//$db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
+if (Session::exists('home')) {
+    echo Session::flash('home');
+}
