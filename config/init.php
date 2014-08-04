@@ -6,11 +6,16 @@
 
 session_start();
 
+/*
 define("DB_HOST", "127.0.0.1");
 define("DB_NAME", "razgovori");
 define("DB_USER", "root");
 define("DB_PASS", "malajela");
+*/
 
+$GLOBALS['config']
 spl_autoload_register(function ($class){
     require_once 'classes/' . $class . '.php';
 });
+
+require_once'functions/getValue.php';

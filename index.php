@@ -14,3 +14,5 @@ require_once('config/init.php');
 if (Session::exists('home')) {
     echo Session::flash('home');
 }
+
+echo Session::get('user');

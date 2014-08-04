@@ -41,7 +41,7 @@ if(Input::exists()){
             echo "There was problem creating account";
         } else {
             Session::flash('home', 'You have been registered sucsessfully and can now log in!');
-            header('Location: index.php');            
+            Redirect::to('index.php');            
         }
     } else {
         foreach($validation->errors() as $error){
