@@ -14,9 +14,12 @@
 class User {
     private $_db;
     private $_data;
+    private $_sessionName;
     
     public function __construct($user = null){
         $this->_db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        
+        $this->_sessionName = Config::get('session/session_name');
     }
     
     public function create($fields = array()) {
@@ -49,8 +52,7 @@ class User {
         if($user){
             
             if(password_verify($password, getValue('password_hash', $this->_data))){
-                //echo "Password je ok";
-                Session::put('user', getValue('id', $this->_data));
+                Session::put($this->_sessionName, getValue('user_id', $this->_data));
                 return true;
             }
         }
