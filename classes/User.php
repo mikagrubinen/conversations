@@ -15,11 +15,28 @@ class User {
     private $_db;
     private $_data;
     private $_sessionName;
+    private $_isLoggedIn;
     
     public function __construct($user = null){
         $this->_db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         
         $this->_sessionName = Config::get('session/session_name');
+        
+        if(!$user){
+         
+            if(Session::exists($this->_sessionName)){
+                $user = Session::get($this->_sessionName);
+                
+                if($this->find($user)){
+                    $this->_isLoggedIn = true;
+                } else {
+                    // process Logout
+                }
+            }
+        } else {
+            $this->find($user);
+        }
+        
     }
     
     public function create($fields = array()) {
@@ -33,7 +50,7 @@ class User {
         if($user){
             // depending on whether $user is numeric or not, inserting id or Username in $field
             // so we can search users by id or username
-            $field = (is_numeric($user)) ? 'id' : 'username';
+            $field = (is_numeric($user)) ? 'user_id' : 'username';
             $this->_db->where($field, $user);
             $data = $this->_db->get('users');
             if($data){
@@ -57,5 +74,13 @@ class User {
             }
         }
         return false;
+    }
+    
+    public function data() {
+        return $this->_data;
+    }
+    
+    public function isLoggedIn() {
+        return $this->_isLoggedIn;
     }
 }

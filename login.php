@@ -31,9 +31,9 @@ if(Input::exists()){
         $login = $user->login(Input::get('username'), Input::get('password'));
         
         if($login){
-            echo "Sucsess";
+            Redirect::to('index.php');
         } else {
-            echo "Not Sucsess";
+            echo "Log in did not sucsess";
         }
     } else {
         foreach($validation->errors() as $error){
