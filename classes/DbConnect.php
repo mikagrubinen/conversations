@@ -103,7 +103,7 @@ class DbConnect {
     */
    public function where($whereProp, $whereValue) 
    {
-      $this->_where[$whereProp] = $whereValue;
+       $this->_where[$whereProp] = $whereValue;
    }
 
    /**

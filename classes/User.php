@@ -21,7 +21,7 @@ class User {
         $this->_db = new DbConnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         
         $this->_sessionName = Config::get('session/session_name');
-        
+ 
         if(!$user){
          
             if(Session::exists($this->_sessionName)){
@@ -67,13 +67,20 @@ class User {
         $user = $this->find($username);
         
         if($user){
-            
             if(password_verify($password, getValue('password_hash', $this->_data))){
-                Session::put($this->_sessionName, getValue('user_id', $this->_data));
+                Session::put($this->_sessionName, getValue('user_id', $this->_data));               
                 return true;
             }
         }
         return false;
+    }
+    
+    public function exists() {
+        return (!empty($this->_data)) ? true : false;
+    }
+    
+    public function logout() {
+        return Session::delete($this->_sessionName);
     }
     
     public function data() {

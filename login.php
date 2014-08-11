@@ -54,6 +54,6 @@ if(Input::exists()){
         <label for ="password">Password</label>
         <input type="password" name="password" id="password" value="">
     </div>
-    
+  
     <input type="submit" value="log in">
 </form>

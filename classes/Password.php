@@ -16,4 +16,8 @@ class Password {
     public static function hash($string) {
         return password_hash($string, PASSWORD_DEFAULT);
     }
+    
+    public static function unique() {
+        return self::hash(uniqid());
+    }
 }

@@ -19,7 +19,7 @@ $user = new User();
 if($user->isLoggedIn()){
 ?>
 
-<p>Hello <a href="#"><?php echo getValue('username', $user->data()) ?></a>!</p>
+<p>Hello <a href="profile.php?user=<?php echo getValue('username', $user->data()) ?>"><?php echo getValue('username', $user->data()) ?></a>!</p>
 
 <ul>
     <li><a href="logout.php">Log out</a></li>

@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `razgovori`.`messages` (
   PRIMARY KEY (`message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
 
-
 ova tabela nije u redu jer ima dve iste kolone a to su primar_id i secundar_id
 CREATE TABLE IF NOT EXISTS `razgovori`.`friends` (
   `friends_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing message_id of each message, unique index',
